@@ -1,13 +1,14 @@
-/**
- * Middleware de aplicación de desarrollo propio.
- * Realiza la captura de metadatos de la petición (Auditoría) antes de procesar el recurso.
- */
 export function auditoriaPeticion(req, res, next) {
-    const timestamp = new Date().toISOString();
+
+    // Instanciación y formateo de marca de tiempo (Timestamp) con localización regional 
+    // Se fuerza la zona horaria 'America/Argentina/Cordoba' para garantizar precisión en los logs locales.
+    const timestamp = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Cordoba' });
+
+    // Registro de eventos (Logging) en la salida estándar (stdout).
+    // Se realiza una interpolación de cadenas para capturar el Verbo HTTP (req.method) y el Endpoint (req.url).
     console.log(`[AUDITORIA] Petición ${req.method} en ruta: ${req.url} - Fecha: ${timestamp}`);
-
-    // Inyectamos un encabezado personalizado para demostrar el procesamiento del middleware
     res.setHeader('X-Procesado-Por', 'Servidor-Lucas-IES21');
-
-    next(); // Cede el control al siguiente middleware o controlador
+    // Transferencia del control de ejecución. 
+    // Es vital para no bloquear el ciclo de vida de la petición (Request-Response Cycle).
+    next();
 }

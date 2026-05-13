@@ -13,9 +13,6 @@ app.use(auditoriaPeticion); // Aplicación del middleware propio
 // Rutas API REST (Entidades)
 app.get('/api/v1/jugadores', controlador.obtenerTodos);
 app.get('/api/v1/jugadores/:id', controlador.obtenerUno);
-
-// Ruta orientada a PROCEDIMIENTOS (Acción lógica sobre los datos)
-// No respeta los principios REST porque invoca un proceso de cálculo ("tasacion")
 app.get('/api/v1/acciones/tasacion-plantel', controlador.ejecutarTasacion);
 
 app.listen(PUERTO, () => {
